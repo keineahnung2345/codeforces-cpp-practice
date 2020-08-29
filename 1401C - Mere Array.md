@@ -150,3 +150,58 @@ int main()
     return 0;
 }
 ```
+
+## official solution, sorting
+249 ms	800 KB
+
+time: O(NlogN)
+
+Compare with the sorted seq.
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <climits> //INT_MAX
+ 
+using namespace std;
+
+int main()
+{
+    int t;
+    
+    cin >> t;
+    
+    while(t-- > 0){
+        int n;
+        cin >> n;
+        
+        vector<int> a(n), b(n);
+        int amin = INT_MAX;
+        
+        for(int i = 0; i < n; ++i){
+            cin >> a[i];
+            b[i] = a[i];
+            amin = min(amin, a[i]);
+        }
+        
+        sort(b.begin(), b.end());
+        
+        bool isIncreasing = true;
+        
+        for(int i = 0; i < n; ++i){
+            if(a[i] != b[i] && a[i] % amin != 0){
+                //a[i] is not in right position
+                //and we cannot move a[i] since a[i] is not the multiple of amin
+                isIncreasing = false;
+                break;
+            }
+        }
+        
+        if(isIncreasing) cout << "YES" << endl;
+        else cout << "NO" << endl;
+    }
+ 
+    return 0;
+}
+```
