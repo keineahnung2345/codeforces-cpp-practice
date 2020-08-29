@@ -203,3 +203,58 @@ int main()
     return 0;
 }
 ```
+
+## official solution
+155 ms	0 KB
+
+time: O(1)
+
+The seq c's values can only be in {-2,0,2}. 2 comes from the pair (2,1), and -2 comes from the pair(1,2). So we should create as many (2,1) as possible and as less (1,2) as possible. To create less (1,2), we create many (1,0) and (0,2) to consume seq a's 1 and seq b's 2.
+
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main()
+{
+    int t;
+    
+    cin >> t;
+    
+    while(t-- > 0){
+        int x0, x1, x2;
+        int y0, y1, y2;
+        
+        cin >> x0 >> x1 >> x2 >> y0 >> y1 >> y2;
+        
+        int ans = 0;
+        
+        //as more (2,1) as possible
+        int m = min(x2, y1);
+        x2 -= m;
+        y1 -= m;
+        ans += 2*m;
+        
+        //as less (1,2) as possible
+        //so build as many (1,0) and (0,2) as possible
+        m = min(x1, y0);
+        x1 -= m;
+        y0 -= m;
+        
+        m = min(x0, y2);
+        x0 -= m;
+        y2 -= m;
+        
+        m = min(x1, y2);
+        x1 -= m;
+        y2 -= m;
+        ans -= 2*m;
+        
+        cout << ans << endl;
+    }
+
+    return 0;
+}
+```
