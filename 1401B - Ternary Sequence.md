@@ -125,6 +125,8 @@ int main()
 ```
 
 ## not create sequences
+140 ms	4 KB
+
 This method calculate the sum of c on the fly.
 
 ```cpp
