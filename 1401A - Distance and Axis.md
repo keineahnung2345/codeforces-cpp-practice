@@ -1,4 +1,6 @@
 62 ms	12 KB
+
+time: O(1)
  
 If n < k, move A from n to k, then put B at k, so OB = k and AB = 0, OB-AB = k.
 
