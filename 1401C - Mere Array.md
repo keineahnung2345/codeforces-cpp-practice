@@ -81,3 +81,72 @@ int main()
     return 0;
 }
 ```
+
+## sorting
+217 ms	2300 KB
+
+For the elements in a which are a's minimum's multiple, they can be exchanged arbitrarily.
+Suppose a's minimum is a[k], and there are a[i] and a[j] which are a[k]'s multiple, we can exchange i and k, and then k and j, and then j and i, this has the same effect of just swapping a[i] and a[j].
+
+That means we can sort a's minimum's multiple. Following code simulate the process of sort a's minimum's multiple and check if the resulting sequence is increasing.
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+ 
+using namespace std;
+ 
+bool isIncreasing(vector<int>& a){
+    int n = a.size();
+    
+    for(int i = 1; i < n; ++i){
+        if(a[i-1] > a[i]){
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+int main()
+{
+    int t;
+    
+    cin >> t;
+    
+    while(t-- > 0){
+        int n;
+        cin >> n;
+        
+        vector<int> a(n);
+        
+        for(int i = 0; i < n; ++i){
+            cin >> a[i];
+        }
+        
+        int amin = *min_element(a.begin(), a.begin()+n);
+        
+        //exchangable indices
+        vector<int> idxs, vals;
+        
+        for(int i = 0; i < n; ++i){
+            if(a[i] % amin == 0){
+                idxs.push_back(i);
+                vals.push_back(a[i]);
+            }
+        }
+        
+        sort(vals.begin(), vals.end());
+        
+        for(int i = 0; i < idxs.size(); ++i){
+            a[idxs[i]] = vals[i];
+        }
+        
+        if(isIncreasing(a)) cout << "YES" << endl;
+        else cout << "NO" << endl;
+    }
+ 
+    return 0;
+}
+```
