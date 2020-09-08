@@ -1,3 +1,95 @@
+# backtracking(TLE)
+Time limit exceeded on pretest 4
+2000 ms	14100 KB
+
+use backtracking to create all possible strings, finally check if it's k-balanced.
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <unordered_map>
+ 
+using namespace std;
+ 
+bool check(string& s, int& k, int cur){
+    vector<int> counter(2, 0);
+    
+    for(int i = cur; i < cur+k; ++i){
+        if(s[i] == '0'){
+            ++counter[0];
+        }else{
+            ++counter[1];
+        }
+        // cout << "0: " << counter[0] << ", 1: " << counter[1] << endl;
+        if(counter[0] > (k>>1) || counter[1] > (k>>1)){
+            // cout << "invalid" << endl;
+            return false;
+        }
+    }
+    
+    // cout << "valid" << endl;
+    return true;
+}
+ 
+bool backtrack(string& s, int& k, int cur){
+    int n = s.size();
+    if(cur == n){
+        return check(s, k, cur-k);
+    }else{
+        if(cur-k >= 0 && !check(s, k, cur-k)){
+            // cout << cur << ": early false" << endl;
+            return false;
+        }
+        
+        if(s[cur] == '?'){
+            char tmp;
+            for(char c : {'0', '1'}){
+                s[cur] = c;
+                // cout << "revise and backtrack" << endl;
+                if(backtrack(s, k, cur+1)){
+                    // cout << cur << ": true" << endl;
+                    return true;
+                }
+                s[cur] = '?';
+            }
+        }else{
+            // cout << "direct backtrack" << endl;
+            if(backtrack(s, k, cur+1)){
+                // cout << cur << ": true" << endl;
+                return true;
+            }
+        }
+        // cout << cur << ": false" << endl;
+        return false;
+    }
+};
+ 
+int main()
+{
+    int t;
+    
+    cin >> t;
+    
+    while(t-- > 0){
+        int n, k;
+        cin >> n >> k;
+        
+        string s;
+        cin >> s;
+        
+        if(backtrack(s, k, 0)){
+            cout << "YES\n";
+        }else{
+            cout << "NO\n";
+        }
+    }
+ 
+    return 0;
+}
+```
+
+
 # official solution
 109 ms	1200 KB
 
