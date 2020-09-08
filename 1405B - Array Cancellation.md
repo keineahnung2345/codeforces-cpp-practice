@@ -64,3 +64,52 @@ int main()
 }
 ```
 
+# maximum suffix sum (official solution)
+218 ms	1400 KB
+
+Let `c_i` be the suffix sum starting from `i`, which is `a_i + a_(i+1) + ... a_(n-1)`. 
+It can be proven that `a_0 = a_1 = ... a_(n-1) = 0` iff `c_0 = c_1 = ... c_(n-1) = 0`.
+
+Now consider the free operation: `--A[i]` and `++A[j]` for `i` < `j`.
+A free operation will increase `c_(i+1)`, `c_(i+2)`, ..., `c_(j)` by one("suffix" sum!).
+Free operations can only increase elements of `c`.
+
+So to make `c` full of 0, 
+we do `max(c)` non free operations from `n-1` to `0`(not understand).
+
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main()
+{
+    int t;
+    
+    cin >> t;
+    
+    vector<int> A(1e5);
+    vector<long long> suffSum(1e5);
+    
+    while(t-- > 0){
+        int n;
+        
+        cin >> n;
+        
+        for(int i = 0; i < n; ++i){
+            cin >> A[i];
+        }
+        
+        long long ans = 0;
+        for(int i = n-1; i >= 0; --i){
+            suffSum[i] = A[i] + ((i+1 < n) ? suffSum[i+1] : 0);
+            ans = max(ans, suffSum[i]);
+        }
+        
+        cout << ans << endl;
+    }
+
+    return 0;
+}
+```
