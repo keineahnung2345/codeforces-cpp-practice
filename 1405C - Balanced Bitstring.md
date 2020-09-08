@@ -1,5 +1,6 @@
 # backtracking(TLE)
 Time limit exceeded on pretest 4
+
 2000 ms	14100 KB
 
 use backtracking to create all possible strings, finally check if it's k-balanced.
@@ -89,6 +90,94 @@ int main()
 }
 ```
 
+# backtrack, early stop(TLE)
+Time limit exceeded on pretest 4	
+
+2000 ms	22900 KB
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <unordered_map>
+ 
+using namespace std;
+ 
+bool backtrack(string& s, int& k, int cur, int zeros, int ones){
+    int n = s.size();
+    if(cur == n){
+        return (zeros == (k>>1)) && (ones == (k>>1));
+    }else{
+        // cout << "cur: " << cur << endl;
+        if(cur-k >= 0){
+            if(zeros > (k>>1) || ones > (k>>1)){
+            	// cout << "early false" << endl;
+                return false;
+            }
+        }
+        
+        if(s[cur] == '?'){
+            char tmp;
+            int zeros_org = zeros, ones_org = ones;
+            for(char c : {'0', '1'}){
+                s[cur] = c;
+                // cout << "revise and backtrack" << endl;
+                if(s[cur] == '0') ++zeros;
+                else ++ones;
+                if(cur-k >= 0){
+                    if(s[cur-k] == '0') --zeros;
+                    else --ones;
+                }
+                // cout << cur << ", " << zeros << ", " << ones << endl;
+                if(backtrack(s, k, cur+1, zeros, ones)){
+                    // cout << cur << ": true" << endl;
+                    return true;
+                }
+                s[cur] = '?';
+                zeros = zeros_org;
+                ones = ones_org;
+            }
+        }else{
+            // cout << "direct backtrack" << endl;
+            if(s[cur] == '0') ++zeros;
+            else ++ones;
+            if(cur-k >= 0){
+                if(s[cur-k] == '0') --zeros;
+                else --ones;
+            }
+            if(backtrack(s, k, cur+1, zeros, ones)){
+                // cout << cur << ": true" << endl;
+                return true;
+            }
+        }
+        // cout << cur << ": false" << endl;
+        return false;
+    }
+};
+ 
+int main()
+{
+    int t;
+    
+    cin >> t;
+    
+    while(t-- > 0){
+        int n, k;
+        cin >> n >> k;
+        
+        string s;
+        cin >> s;
+        
+        if(backtrack(s, k, 0, 0, 0)){
+            cout << "YES\n";
+        }else{
+            cout << "NO\n";
+        }
+    }
+ 
+    return 0;
+}
+```
 
 # official solution
 109 ms	1200 KB
