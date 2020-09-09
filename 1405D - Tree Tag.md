@@ -1,8 +1,10 @@
 # official solution
+358 ms	3400 KB
 
 In this problem, we need to :
 - find the distance of two points in a (not binary) tree
 - find the "diameter" of the tree
+  - https://www.geeksforgeeks.org/diameter-tree-using-dfs/
 
 ```cpp
 #include <iostream>
