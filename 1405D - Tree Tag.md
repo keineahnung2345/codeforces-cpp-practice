@@ -128,3 +128,78 @@ int main(){
     return 0;
 }
 ```
+
+revised from official implementation:
+
+It's genius to just use one dfs to find out diameter and dist(a,b)!
+
+```cpp
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int dfs(vector<vector<int>>& adjList, int cur, int parent, vector<int>& dists, int& diameter){
+    int len = 0;
+    int max_len = 0;
+    
+    for(int& nei : adjList[cur]){
+        if(nei != parent){
+            dists[nei] = dists[cur]+1;
+            /*
+            dfs(nei, cur): 
+            in the subtree rooted at nei, 
+            the length of longest simple path starting from the root(nei)
+            */
+            len = 1+dfs(adjList, nei, cur, dists, diameter);
+            /*
+            Say cur has neighbors nei0, nei1, nei2, ...,
+            and say we are currently at nei2,
+            then max_len is the max of 1+dfs(nei0, cur) and 1+dfs(nei1, cur).
+            It's the max length of previously visited subtrees
+            */
+            diameter = max(diameter, len+max_len);
+            /*
+            max_len changed from max({1+dfs(nei0, cur), 1+dfs(nei1, cur)}) to
+            max({1+dfs(nei0, cur), 1+dfs(nei1, cur), 1+dfs(nei2, cur})
+            */
+            max_len = max(max_len, len);
+        }
+    }
+    
+    //return longest simple path's length
+    return max_len;
+};
+
+int main(){
+    int t;
+    int n, a, b, da, db;
+    vector<vector<int>> adjList;
+    vector<int> dists;
+
+    cin >> t;
+
+    while(t-- > 0){
+        cin >> n >> a >> b >> da >> db;
+        
+        adjList = vector<vector<int>>(n+1);
+        dists = vector<int>(n+1);
+        
+        //n-1 edges!!
+        for(int i = 0; i < n-1; ++i){
+            int u, v;
+            cin >> u >> v;
+            adjList[u].push_back(v);
+            adjList[v].push_back(u);
+        }
+        
+        int diameter = 0;
+        dfs(adjList, a, -1, dists, diameter);
+        
+        // cout << "dist(a,b): " << dists[b] << endl;
+        // cout << "diameter: " << diameter << endl;
+        
+        cout << (2*da >= min({diameter, db, 2*dists[b]}) ? "Alice" : "Bob") << endl;
+    }
+    return 0;
+}
+```
