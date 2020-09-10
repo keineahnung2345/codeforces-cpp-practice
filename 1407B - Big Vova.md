@@ -56,3 +56,54 @@ int main()
     return 0;
 }
 ```
+
+# offical solution - O(n^2 * log(max(a)))
+
+We will do `n` iterations, in `i`th iteration, we calculate gcd of our cumulative gcd(`cumgcd`) with all the remaining `n-i` elements in the array.
+We choose the element giving the maximum resulting gcd and remove it from the array.
+
+The time complexity of `gcd(x)` is `O(log(x))`, so the total time complexity is `O(n^2*log(max(a)))`, where `max(a)` is the maximum of the array `a`.
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+ 
+using namespace std;
+ 
+int main()
+{
+    int t, n;
+    
+    cin >> t;
+    
+    while(t-- > 0){
+        cin >> n;
+        
+        vector<int> a(n);
+        for(int i = 0; i < n; ++i){
+            cin >> a[i];
+        }
+        
+        int cumgcd = 0;
+        
+        for(int i = 0; i < n; ++i){
+            int curmaxgcd = 0;
+            int curmaxidx = -1;
+            for(int j = 0; j < n-i; ++j){
+                if(__gcd(cumgcd, a[j]) > curmaxgcd){
+                    curmaxgcd = __gcd(cumgcd, a[j]);
+                    curmaxidx = j;
+                }
+            }
+            
+            cout << a[curmaxidx] << " ";
+            a.erase(a.begin()+curmaxidx);
+            cumgcd = curmaxgcd;
+        }
+        
+        cout << endl;
+    }
+ 
+    return 0;
+}
+```
