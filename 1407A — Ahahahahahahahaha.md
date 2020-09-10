@@ -1,7 +1,7 @@
 This problem gives us an array and requires us to remove at most n/2 elements of it to make `a[0]-a[1]+a[2]-a[3]+... = 0`. 
 The number of removed elements won't necessarily be minimum.
 
-# 
+# count zeros and ones
 30 ms	0 KB
 
 This problem is like a brian teaser, when there are more zeros than ones, we remove all ones; otherwise, we remove 0 or 1 one to make the count of remaining ones even.
