@@ -1,10 +1,23 @@
 # official solution
 358 ms	3400 KB
 
-In this problem, we need to :
+Depending on dist(a,b), `da`, `db` and the tree's diameter, there are four cases:
+- dist(a,b) <= da: Alice can catch Bob at her first move
+- da * 2 >= diameter: diameter here means the count of edges in longest simple path of the tree. In Alice's first move, she moves to the center of the tree, later she can reach any vertex in the tree in just one move.
+- db > 2 * da: Bob will win in this case. Since we are not in case 1, Bob won't lose in before his first move. And since we are not in case 2, there exist a vertex v that Alice cannot reach in one move, i.e. dist(a, v) = da+1. Depending on whether Bob is at such vertex v, there are two cases:
+  - Bob is at v: then he can simply stay there
+  - Bob is not at v: then he can move to v in one step, this can be proven by dist(b,v) <= dist(b,a) + dist(a,v)  <= da + (da+1) <= db
+    - The first inequality is by triangle inequality
+    - The second inequality: dist(b,a) <= da? and dist(a,v) = da+1. dist(b,a) <= da is confusing, have posted a question in the [comment](https://codeforces.com/blog/entry/82366?#comment-693311).
+- db <= 2 * da: (copied from editorial) In this case, Alice's strategy will be to capture Bob whenever possible or move one vertex closer to Bob otherwise. Let's prove that Alice will win in a finite number of moves with this strategy. Let's root the tree at a. Bob is located in some subtree of a, say with k vertices. Alice moves one vertex deeper, decreasing Bob's subtree size by at least one vertex. Since db≤2da, Bob cannot move to another subtree without being immediately captured, so Bob must stay in this shrinking subtree until he meets his inevitable defeat.
+
+So in this problem, we need to :
 - find the distance of two points in a (not binary) tree
+  - This can be done by dfs, in the following code, we use the variable `parent` to avoid revisiting a vertex, its effect is same as a `visited` array
 - find the "diameter" of the tree
-  - https://www.geeksforgeeks.org/diameter-tree-using-dfs/
+  - Note that "diameter" in this problem is defined by edge count
+  - In https://www.geeksforgeeks.org/diameter-tree-using-dfs/ , "diameter" is defined by vertex count
+  - To find diameter, we first start from a random vertex, and find a vertex farthest from it, called that vertex `x`. Then start from `x`, find a vertex farthest from it, their distance is the diameter of the tree.
 
 ```cpp
 #include <iostream>
