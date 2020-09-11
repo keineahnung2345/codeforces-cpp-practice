@@ -1,6 +1,20 @@
 # official solution
 187 ms	0 KB
 
+There is a permutation of size `n`, it requires us to guess the permutation using at most `2*n` queries. 
+
+The strategy is as following, while we make queries, we maintain a index `maxidx`, pointing to the maximum in the permutation. 
+In each iteration, we query (x,y) and then (y,x), by doing this, we can find the minimum of `p[x]` and `p[y]`, why is that?
+
+Claim `(a mod b) > (b mod a) <-> a < b`, this can be proved:
+When `a < b`, `a mod b` will be `a`, and `b mod a` will be in `[0,a-1]`, so  `b mod a < a`. Also `(a mod b) == (b mod a) == 0 <-> a == b` .
+
+By the theorem above, we can induce which is bigger in `a` and `b` by comparing the return value of the two queries. 
+Also, say `query(x,y) = u`, `query(y,x) = v`, we also know that if `p[x] = u ` if `u` is larger.
+
+After iterating for `n-1` times(each time we do two queries), we know the `n-1` small elements in the permutation, 
+so the remaining element pointed by `maxidx` must be `n`.
+
 ```cpp
 #include <iostream>
 #include <vector>
