@@ -1,4 +1,109 @@
+# bfs(WA)
+Wrong answer on test 5
+
+Jump method 2 and 3 are wrong.
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <set>
+#include <climits>
+#include <queue>
+
+using namespace std;
+
+int dfs(vector<set<int>>& adjList, int n, int cur){
+	if(cur == n-1) return 0;
+	
+	// cout << "cur: " << cur << endl;
+	
+	int res = INT_MAX;
+	
+	for(const int& nei : adjList[cur]){
+		res = min(res, 1 + dfs(adjList, n, nei));
+	}
+	
+	return res;
+}
+
+int main()
+{
+    int n;
+    
+    cin >> n;
+    
+    vector<int> h(n);
+    
+    for(int i = 0; i < n; ++i){
+        cin >> h[i];
+    }
+    
+    int cur = 0;
+    vector<set<int>> adjList(n);
+    
+    for(cur = 0; cur < n; ++cur){
+    	if(cur+1 < n)
+    		adjList[cur].insert(cur+1);
+        
+        for(int nei = cur+1; nei < n && h[nei] > h[cur]; ++nei){
+            if(nei+1 < n && h[nei] > h[nei+1]){
+            	adjList[cur].insert(nei+1);
+            }
+        }
+        
+        for(int nei = cur+1; nei < n && h[nei] < h[cur]; ++nei){
+            if(nei+1 < n && h[nei] < h[nei+1]){
+            	adjList[cur].insert(nei+1);
+            }
+        }
+    }
+    
+    // for(int i = 0; i < n; ++i){
+    // 	cout << i << " -> ";
+    // 	for(const int& nei : adjList[i]){
+    // 		cout << nei << " ";
+    // 	}
+    // 	cout << endl;
+    // }
+    
+    cur = 0;
+    
+    queue<int> q;
+    vector<bool> visited(n, false);
+    q.push(0);
+    visited[0] = true;
+    
+    int jumps = 0;
+    
+    while(!q.empty()){
+    	int qsize = q.size();
+    	
+    	while(qsize-- > 0){
+    		cur = q.front(); q.pop();
+	    	if(cur == n-1) break;
+	    	
+	    	for(const int& nei : adjList[cur]){
+	    		if(!visited[nei]){
+	    			visited[nei] = true;
+	    			q.push(nei);
+	    		}
+	    	}
+    	}
+    	
+    	if(cur == n-1) break;
+    	++jumps;
+    }
+    
+    // jumps = dfs(adjList, n, 0);
+    
+    cout << jumps << endl;
+
+    return 0;
+}
+```
+
 # official solution - monotonic stack + dp
+702 ms	19000 KB
 
 There are three jump method: 
 - i+1=j
