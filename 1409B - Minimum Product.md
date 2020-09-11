@@ -63,3 +63,43 @@ int main()
     return 0;
 }
 ```
+
+# official solution - math
+217 ms	0 KB
+
+```cpp
+#include <iostream>
+#include <climits>
+
+using namespace std;
+ 
+int main()
+{
+    int t;
+    
+    cin >> t;
+    
+    while(t-- > 0){
+        int a, b, x, y, n;
+        
+        cin >> a >> b >> x >> y >> n;
+        
+        long long ans = LLONG_MAX;
+        for(int i = 0; i < 2; ++i){
+            //da, db: actual operations used on a and b
+            int da = min(n, a-x);
+            //use da operations on a, remaining n-da operations
+            int db = min(n-da, b-y);
+            
+            ans = min(ans, 1LL*(a-da)*(b-db));
+            
+            swap(a, b);
+            swap(x, y);
+        }
+        
+        cout << ans << endl;
+    }
+ 
+    return 0;
+}
+```
