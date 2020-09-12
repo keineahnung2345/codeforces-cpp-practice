@@ -139,3 +139,71 @@ int main()
     return 0;
 }
 ```
+
+# official solution 2
+
+31 ms	0 KB
+
+`d` should be a factor of `y-x`.
+
+To generate a sequence, start from y and extend to the left and right.
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+ 
+using namespace std;
+ 
+int main()
+{
+    int t;
+    
+    cin >> t;
+    
+    while(t-- > 0){
+        int n, x, y;
+        
+        cin >> n >> x >> y;
+        
+        vector<int> ans;
+        
+        for(int d = 1; d <= y-x; ++d){
+            if((y-x)%d != 0) continue;
+            vector<int> cand;
+            bool xfound = false;
+            int cur = y, need = n;
+            
+            //from y toward 0
+            while(cur >= 1 && need > 0){
+                cand.push_back(cur);
+                xfound |= (cur == x);
+                cur -= d;
+                --need;
+            }
+            
+            //from y+d toward INF
+            cur = y+d;
+            while(need > 0){
+                cand.push_back(cur);
+                cur += d;
+                --need;
+            }
+            
+            sort(cand.begin(), cand.end());
+            
+            if(need == 0 && xfound && 
+                (ans.empty() || cand.back() < ans.back())){
+                ans = cand;
+            }
+        }
+        
+        for(int& e : ans){
+            cout << e << " ";
+        }
+        cout << endl;
+    }
+    
+    return 0;
+}
+```
