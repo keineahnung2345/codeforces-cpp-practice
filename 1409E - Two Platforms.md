@@ -1,4 +1,5 @@
 # official solution - sorting, two pointers, dp
+842 ms	3900 KB
 
 Note that we don't need `y` coordinate in this problem.
 
@@ -11,6 +12,8 @@ So we will find a `i` s.t. a platform ends before or at `xs[i]` and another star
 
 To do this, we maintain two arrays: `prefix_max_l` and `suffix_max_r`, 
 so we can find for the number of points saved for each split place(`xs[i]` and `xs[i+1]`) as fast as possible.
+
+time: O(NlogN)
 
 ```cpp
 #include <iostream>
