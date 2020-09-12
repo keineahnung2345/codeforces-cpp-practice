@@ -207,3 +207,56 @@ int main()
     return 0;
 }
 ```
+
+# official solution 3 
+
+31 ms	0 KB
+
+Choose the smallest `d` s.t. `d` is a factor of `y-x` and there won't be more than `n` elements between `x` and `y` in the generated sequence.
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+ 
+using namespace std;
+ 
+int main()
+{
+    int t;
+    
+    cin >> t;
+    
+    while(t-- > 0){
+        int n, x, y;
+        
+        cin >> n >> x >> y;
+        
+        vector<int> ans;
+        int diff = y-x;
+        
+        for(int d = 1; d <= y-x; ++d){
+            if(diff%d != 0) continue;
+            /*
+            [x, x+d, x+2*d, ..., x+k*d=y]
+            there are (diff/d + 1) elements,
+            we should choose a d large enough 
+            s.t. (diff/d + 1) <= n
+            */
+            if(diff/d+1 > n) continue;
+            
+            int k = min((y-1)/d, n-1);
+            
+            int a0 = y - k*d;
+            
+            for(int i = 0; i < n; ++i){
+                cout << a0 + i*d << " ";
+            }
+            cout << endl;
+            break;
+        }
+    }
+    
+    return 0;
+}
+```
