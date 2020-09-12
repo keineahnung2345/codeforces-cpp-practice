@@ -85,3 +85,57 @@ int main()
     return 0;
 }
 ```
+
+# official solution - brute force
+
+46 ms	100 KB
+
+Generate all possible sequences, maintain the one containing `x` and `y`, and choose the one whose last element is the smallest. 
+
+time: O(N^3)
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+ 
+using namespace std;
+ 
+int main()
+{
+    int t;
+    
+    cin >> t;
+    
+    while(t-- > 0){
+        int n, x, y;
+        
+        cin >> n >> x >> y;
+        
+        vector<int> ans;
+        
+        for(int start = 1; start <= 50; ++start){
+            //d cannot be 0 because x != y
+            for(int d = 1; d <= 50; ++d){
+                vector<int> cand(n);
+                for(int i = 0; i < n; ++i){
+                    cand[i] = start + d * i;
+                }
+                
+                if(find(cand.begin(), cand.end(), x) != cand.end() && 
+                    find(cand.begin(), cand.end(), y) != cand.end() && 
+                    (ans.empty() || cand.back() < ans.back())){
+                    ans = cand;
+                }
+            }
+        }
+        
+        for(int& e : ans){
+            cout << e << " ";
+        }
+        cout << endl;
+    }
+    
+    return 0;
+}
+```
