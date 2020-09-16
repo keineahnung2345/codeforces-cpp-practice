@@ -32,6 +32,8 @@ We will maintain a `diff` array, in which `diff[i] = a[i] - a[i-1]`.
 In each query, we update `a[0]`(if necessary), `diff[l]`(because a[l] is changed and a[l-1] is not changed, so diff[l] must be changed) and `diff[r+1]`,
 and then we calculate new `K` from the new `diff`, finally we get our answer.
 
+Note: `a0`, `diff` and `K` initially fit in `int`, but they will be updated, so they have to be `long long`.
+
 Ref: [1406D - Three Sequences(化简贪心+差分)](https://blog.csdn.net/jziwjxjd/article/details/108558775)
 
 ```cpp
