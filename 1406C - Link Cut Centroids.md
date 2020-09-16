@@ -1,5 +1,5 @@
 # official solution - tree centroid
-
+343 ms	11300 KB
 
 If we cut the centroid from a tree, the remaining largest connected component will be the smallest. 
 If after cutting a node, the largest connected component's size <= `n/2`, then we say it's the centroid of the tree.(?) 
