@@ -1,5 +1,24 @@
 # official solution - tree centroid
 
+
+If we cut the centroid from a tree, the remaining largest connected component will be the smallest. 
+If after cutting a node, the largest connected component's size <= `n/2`, then we say it's the centroid of the tree.(?) 
+
+To find centroids, we use dfs to calculate every node `u` 's subtree's size and
+"the tree excluding the subtree rooted at `u` "'s size, if the maximum of them <= `n/2`, 
+then we say the node `u` is a centroid.
+
+Each tree must have one or two centroids.(?) If the tree has only one centroid, 
+then we choose an arbitrary edge, cut it, and connect it back.
+
+If the tree has two centroids, call them `x` and `y`. `x` and `y` must be connected, 
+this can be proven by contradiction: if there exist a node `z` between `x` and `y`, 
+after cutting `z`, the largest component's size will be smaller than that of `x` and `y`.
+`x` and `y`'s largest component's size must be both `n/2`.(?)
+
+Let `x` be `y`'s parent, we cut a leaf from `y`'s subtree and connect it to `x`, 
+after doing this, `x`'s largest component's size will be `n/2` and `y`'s will be `n/2+1`, so now `x` becomes the only centroid.
+
 Some references:
 
 [Centroid Decomposition of Tree](https://www.geeksforgeeks.org/centroid-decomposition-of-tree/)
