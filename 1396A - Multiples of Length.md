@@ -1,5 +1,5 @@
 # official solution - math
-358 ms	800 KB
+327 ms	400 KB
 
 There are two cases: when `n == 1` or when `n != 1`.
 
@@ -10,6 +10,8 @@ When `n != 1`, we:
 - make `a[i]` become `-(n-1)*a[i]` for i > 0 by `1 n` `0, −n⋅a2, −n⋅a3, …, −n⋅an`(the operation's index is 1-based)
 - make `a[i]` become zero for i > 0 by `2 n` `(n−1)⋅a2, (n−1)⋅a3, …, (n−1)⋅an`
 
+Note: because we will do multiplication, e.g.: -n*a[i], `n` should be long long.
+
 ```cpp
 #include <iostream>
 #include <vector>
@@ -18,11 +20,11 @@ using namespace std;
 
 int main()
 {
-    int n;
+    long long n;
     
     cin >> n;
     
-    vector<long long> a(n);
+    vector<int> a(n);
     
     for(int i = 0; i < n; ++i){
         cin >> a[i];
