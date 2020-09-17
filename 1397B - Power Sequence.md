@@ -1,6 +1,9 @@
 # official solution - math
-GNU C++17 Pass, GNU C++11 WA
-140 ms	400 KB
+GNU C++17 140 ms	400 KB
+
+GNU C++11	187 ms	400 KB
+
+Note: GNU C++11 gives WA for `ans += abs(a[i] - pow(x, i));`, it needs to be `ans += abs(a[i] - llround(pow(x, i)));`!!
 
 ```cpp
 #include <iostream>
