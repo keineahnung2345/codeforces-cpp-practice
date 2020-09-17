@@ -1,4 +1,6 @@
 # official solution - math
+https://codeforces.com/blog/entry/82142
+
 GNU C++17 140 ms	400 KB
 
 GNU C++11	187 ms	400 KB
