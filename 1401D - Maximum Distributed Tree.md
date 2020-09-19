@@ -1,6 +1,23 @@
-# official solution - math
+# official solution - math, dfs, dp, greedy
 
-Note: cannot do sorting after we take MOD!!
+Let `f(u,v)` be the sum of numbers on the simple path `(u,v)`, the problem requires us to find out the sum of `f(u,v)` for all pairs of nodes. 
+Changing a point of view, the answer is equivalent to the following: in one time we consider an edge, calculate how many simple path passing through it, 
+multiply this number by the edge's number, and then sum for all edges.
+
+Let `w[i]` be the number of simple path passing through the edge `i`, `z[i]` be the number of that edge, `i` in `[0, n-1]`. 
+`w[i]` is the product of the number of nodes after cutting this edge, and it can be calculated by using dfs.
+`z[i]` are chosen from the `m` input primes, now there are two cases:
+- m <= n-1(edge count):
+  In this case, we need to add some 1s, so that the size of `z` will be `n-1`.
+- m > n-1:
+  In this case, we combine some of the primes(by product) so there remains exactly `n-1` primes. 
+  What primes are we are going to combine? Combine the `m-n+2` largest primes together.(This can be proven: https://codeforces.com/blog/entry/81700)
+  
+Now there is only one problem: how to match the `n-1` `w[i]` and `z[i]`? We simply first sort both of them and match them one by one.(This can be proven: https://codeforces.com/blog/entry/81700)
+
+Note1: `w` is the container of int * int, so it has to be long long; `p[edgeCnt-1]` is the product of `p[edgeCnt-1:m-1]`, so it has to be long long, too.
+
+Note2: cannot do sorting after we take MOD!!
 
 ```cpp
 #include <iostream>
